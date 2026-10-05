@@ -1,0 +1,3313 @@
+{
+  "fixture_version": 1,
+  "provenance": "Original hand-declared actions, all snapshots/reasons/transitions and totals on 2026-10-05 before application code. Expander only formats labels/objects and derives eligible_at=declared_open+C; performs no state transitions.",
+  "cases": [
+    {
+      "name": "failure-threshold",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "outcome": "failure"
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "closed->open"
+            ],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            }
+          }
+        ],
+        "summary": {
+          "actions": 4,
+          "attempts": 2,
+          "admitted": 2,
+          "denied": 0,
+          "closed_admissions": 2,
+          "probe_admissions": 0,
+          "completed": 2,
+          "success_observations": 0,
+          "failure_observations": 2,
+          "ignored_observations": 0,
+          "opens": 1,
+          "closes": 0,
+          "half_open_entries": 0,
+          "pending": 0
+        },
+        "final_state": {
+          "mode": "open",
+          "closed_failure_streak": 2,
+          "recovery_success_streak": 0,
+          "opened_at_ms": 1,
+          "eligible_at_ms": 11,
+          "pending": null,
+          "last_action_time_ms": 1
+        }
+      }
+    },
+    {
+      "name": "closed-success-reset",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "outcome": "success"
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 2
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 2,
+            "outcome": "failure"
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_success",
+              "outcome": "success"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 2,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "closed",
+                "admitted_at_ms": 2
+              },
+              "last_action_time_ms": 2
+            }
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 2,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "closed",
+                "admitted_at_ms": 2
+              },
+              "last_action_time_ms": 2
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 2
+            }
+          }
+        ],
+        "summary": {
+          "actions": 6,
+          "attempts": 3,
+          "admitted": 3,
+          "denied": 0,
+          "closed_admissions": 3,
+          "probe_admissions": 0,
+          "completed": 3,
+          "success_observations": 1,
+          "failure_observations": 2,
+          "ignored_observations": 0,
+          "opens": 0,
+          "closes": 0,
+          "half_open_entries": 0,
+          "pending": 0
+        },
+        "final_state": {
+          "mode": "closed",
+          "closed_failure_streak": 1,
+          "recovery_success_streak": 0,
+          "opened_at_ms": null,
+          "eligible_at_ms": null,
+          "pending": null,
+          "last_action_time_ms": 2
+        }
+      }
+    },
+    {
+      "name": "ignored-neutral",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "outcome": "ignored"
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 2
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 2,
+            "outcome": "failure"
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_ignored",
+              "outcome": "ignored"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 2,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "closed",
+                "admitted_at_ms": 2
+              },
+              "last_action_time_ms": 2
+            }
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 2,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "closed->open"
+            ],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "closed",
+                "admitted_at_ms": 2
+              },
+              "last_action_time_ms": 2
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 2,
+              "eligible_at_ms": 12,
+              "pending": null,
+              "last_action_time_ms": 2
+            }
+          }
+        ],
+        "summary": {
+          "actions": 6,
+          "attempts": 3,
+          "admitted": 3,
+          "denied": 0,
+          "closed_admissions": 3,
+          "probe_admissions": 0,
+          "completed": 3,
+          "success_observations": 0,
+          "failure_observations": 2,
+          "ignored_observations": 1,
+          "opens": 1,
+          "closes": 0,
+          "half_open_entries": 0,
+          "pending": 0
+        },
+        "final_state": {
+          "mode": "open",
+          "closed_failure_streak": 2,
+          "recovery_success_streak": 0,
+          "opened_at_ms": 2,
+          "eligible_at_ms": 12,
+          "pending": null,
+          "last_action_time_ms": 2
+        }
+      }
+    },
+    {
+      "name": "cooldown-below-equal",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 10
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "closed->open"
+            ],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 10,
+            "result": {
+              "decision": "deny",
+              "reason": "cooldown_active",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 10
+            }
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [
+              "open->half_open"
+            ],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 10
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0004",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            }
+          }
+        ],
+        "summary": {
+          "actions": 6,
+          "attempts": 4,
+          "admitted": 3,
+          "denied": 1,
+          "closed_admissions": 2,
+          "probe_admissions": 1,
+          "completed": 2,
+          "success_observations": 0,
+          "failure_observations": 2,
+          "ignored_observations": 0,
+          "opens": 1,
+          "closes": 0,
+          "half_open_entries": 1,
+          "pending": 1
+        },
+        "final_state": {
+          "mode": "half_open",
+          "closed_failure_streak": 2,
+          "recovery_success_streak": 0,
+          "opened_at_ms": 1,
+          "eligible_at_ms": 11,
+          "pending": {
+            "attempt_id": "lab-attempt-0004",
+            "role": "probe",
+            "admitted_at_ms": 11
+          },
+          "last_action_time_ms": 11
+        }
+      }
+    },
+    {
+      "name": "pending-probe-bound",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11
+          },
+          {
+            "action_id": "lab-action-0006",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "outcome": "success"
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "closed->open"
+            ],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [
+              "open->half_open"
+            ],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11,
+            "result": {
+              "decision": "deny",
+              "reason": "probe_in_flight",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0006",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "result": {
+              "decision": "observed",
+              "reason": "probe_success",
+              "outcome": "success"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 11
+            }
+          }
+        ],
+        "summary": {
+          "actions": 7,
+          "attempts": 4,
+          "admitted": 3,
+          "denied": 1,
+          "closed_admissions": 2,
+          "probe_admissions": 1,
+          "completed": 3,
+          "success_observations": 1,
+          "failure_observations": 2,
+          "ignored_observations": 0,
+          "opens": 1,
+          "closes": 0,
+          "half_open_entries": 1,
+          "pending": 0
+        },
+        "final_state": {
+          "mode": "half_open",
+          "closed_failure_streak": 2,
+          "recovery_success_streak": 1,
+          "opened_at_ms": 1,
+          "eligible_at_ms": 11,
+          "pending": null,
+          "last_action_time_ms": 11
+        }
+      }
+    },
+    {
+      "name": "recovery-threshold",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "outcome": "success"
+          },
+          {
+            "action_id": "lab-action-0006",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11
+          },
+          {
+            "action_id": "lab-action-0007",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11,
+            "outcome": "success"
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "closed->open"
+            ],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [
+              "open->half_open"
+            ],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "result": {
+              "decision": "observed",
+              "reason": "probe_success",
+              "outcome": "success"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0006",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0004",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0007",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11,
+            "result": {
+              "decision": "observed",
+              "reason": "probe_success",
+              "outcome": "success"
+            },
+            "transitions": [
+              "half_open->closed"
+            ],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0004",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 11
+            }
+          }
+        ],
+        "summary": {
+          "actions": 8,
+          "attempts": 4,
+          "admitted": 4,
+          "denied": 0,
+          "closed_admissions": 2,
+          "probe_admissions": 2,
+          "completed": 4,
+          "success_observations": 2,
+          "failure_observations": 2,
+          "ignored_observations": 0,
+          "opens": 1,
+          "closes": 1,
+          "half_open_entries": 1,
+          "pending": 0
+        },
+        "final_state": {
+          "mode": "closed",
+          "closed_failure_streak": 0,
+          "recovery_success_streak": 0,
+          "opened_at_ms": null,
+          "eligible_at_ms": null,
+          "pending": null,
+          "last_action_time_ms": 11
+        }
+      }
+    },
+    {
+      "name": "probe-failure-restarts-cooldown",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 12,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0006",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 21
+          },
+          {
+            "action_id": "lab-action-0007",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0005",
+            "time_ms": 22
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "closed->open"
+            ],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [
+              "open->half_open"
+            ],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 12,
+            "result": {
+              "decision": "observed",
+              "reason": "probe_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "half_open->open"
+            ],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 12,
+              "eligible_at_ms": 22,
+              "pending": null,
+              "last_action_time_ms": 12
+            }
+          },
+          {
+            "action_id": "lab-action-0006",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 21,
+            "result": {
+              "decision": "deny",
+              "reason": "cooldown_active",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 12,
+              "eligible_at_ms": 22,
+              "pending": null,
+              "last_action_time_ms": 12
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 12,
+              "eligible_at_ms": 22,
+              "pending": null,
+              "last_action_time_ms": 21
+            }
+          },
+          {
+            "action_id": "lab-action-0007",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0005",
+            "time_ms": 22,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [
+              "open->half_open"
+            ],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 12,
+              "eligible_at_ms": 22,
+              "pending": null,
+              "last_action_time_ms": 21
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 12,
+              "eligible_at_ms": 22,
+              "pending": {
+                "attempt_id": "lab-attempt-0005",
+                "role": "probe",
+                "admitted_at_ms": 22
+              },
+              "last_action_time_ms": 22
+            }
+          }
+        ],
+        "summary": {
+          "actions": 8,
+          "attempts": 5,
+          "admitted": 4,
+          "denied": 1,
+          "closed_admissions": 2,
+          "probe_admissions": 2,
+          "completed": 3,
+          "success_observations": 0,
+          "failure_observations": 3,
+          "ignored_observations": 0,
+          "opens": 2,
+          "closes": 0,
+          "half_open_entries": 2,
+          "pending": 1
+        },
+        "final_state": {
+          "mode": "half_open",
+          "closed_failure_streak": 2,
+          "recovery_success_streak": 0,
+          "opened_at_ms": 12,
+          "eligible_at_ms": 22,
+          "pending": {
+            "attempt_id": "lab-attempt-0005",
+            "role": "probe",
+            "admitted_at_ms": 22
+          },
+          "last_action_time_ms": 22
+        }
+      }
+    },
+    {
+      "name": "ignored-probe-preserves-progress",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "outcome": "success"
+          },
+          {
+            "action_id": "lab-action-0006",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11
+          },
+          {
+            "action_id": "lab-action-0007",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11,
+            "outcome": "ignored"
+          },
+          {
+            "action_id": "lab-action-0008",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0005",
+            "time_ms": 11
+          },
+          {
+            "action_id": "lab-action-0009",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0005",
+            "time_ms": 11,
+            "outcome": "success"
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "closed->open"
+            ],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0002",
+                "role": "closed",
+                "admitted_at_ms": 1
+              },
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            }
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [
+              "open->half_open"
+            ],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 1
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 11,
+            "result": {
+              "decision": "observed",
+              "reason": "probe_success",
+              "outcome": "success"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0006",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0004",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0007",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0004",
+            "time_ms": 11,
+            "result": {
+              "decision": "observed",
+              "reason": "probe_ignored",
+              "outcome": "ignored"
+            },
+            "transitions": [],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0004",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0008",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0005",
+            "time_ms": 11,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": null,
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0005",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            }
+          },
+          {
+            "action_id": "lab-action-0009",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0005",
+            "time_ms": 11,
+            "result": {
+              "decision": "observed",
+              "reason": "probe_success",
+              "outcome": "success"
+            },
+            "transitions": [
+              "half_open->closed"
+            ],
+            "before": {
+              "mode": "half_open",
+              "closed_failure_streak": 2,
+              "recovery_success_streak": 1,
+              "opened_at_ms": 1,
+              "eligible_at_ms": 11,
+              "pending": {
+                "attempt_id": "lab-attempt-0005",
+                "role": "probe",
+                "admitted_at_ms": 11
+              },
+              "last_action_time_ms": 11
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": 11
+            }
+          }
+        ],
+        "summary": {
+          "actions": 10,
+          "attempts": 5,
+          "admitted": 5,
+          "denied": 0,
+          "closed_admissions": 2,
+          "probe_admissions": 3,
+          "completed": 5,
+          "success_observations": 2,
+          "failure_observations": 2,
+          "ignored_observations": 1,
+          "opens": 1,
+          "closes": 1,
+          "half_open_entries": 1,
+          "pending": 0
+        },
+        "final_state": {
+          "mode": "closed",
+          "closed_failure_streak": 0,
+          "recovery_success_streak": 0,
+          "opened_at_ms": null,
+          "eligible_at_ms": null,
+          "pending": null,
+          "last_action_time_ms": 11
+        }
+      }
+    },
+    {
+      "name": "pending-unobserved",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          }
+        ],
+        "summary": {
+          "actions": 1,
+          "attempts": 1,
+          "admitted": 1,
+          "denied": 0,
+          "closed_admissions": 1,
+          "probe_admissions": 0,
+          "completed": 0,
+          "success_observations": 0,
+          "failure_observations": 0,
+          "ignored_observations": 0,
+          "opens": 0,
+          "closes": 0,
+          "half_open_entries": 0,
+          "pending": 1
+        },
+        "final_state": {
+          "mode": "closed",
+          "closed_failure_streak": 0,
+          "recovery_success_streak": 0,
+          "opened_at_ms": null,
+          "eligible_at_ms": null,
+          "pending": {
+            "attempt_id": "lab-attempt-0001",
+            "role": "closed",
+            "admitted_at_ms": 0
+          },
+          "last_action_time_ms": 0
+        }
+      }
+    },
+    {
+      "name": "denied-completion-invalid",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 1,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0004",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 10
+          },
+          {
+            "action_id": "lab-action-0005",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 10,
+            "outcome": "success"
+          }
+        ]
+      },
+      "expected": {
+        "status": "error",
+        "code": "trace.invalid"
+      }
+    },
+    {
+      "name": "closed-overlap-invalid",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 2,
+          "cooldown_ms": 10,
+          "success_threshold": 2
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 0
+          }
+        ]
+      },
+      "expected": {
+        "status": "error",
+        "code": "trace.invalid"
+      }
+    },
+    {
+      "name": "completion-attempt-tie",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 1,
+          "cooldown_ms": 10,
+          "success_threshold": 1
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 0
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 1,
+          "cooldown_ms": 10,
+          "success_threshold": 1
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "closed->open"
+            ],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 0,
+              "eligible_at_ms": 10,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 0,
+            "result": {
+              "decision": "deny",
+              "reason": "cooldown_active",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 0,
+              "eligible_at_ms": 10,
+              "pending": null,
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 0,
+              "eligible_at_ms": 10,
+              "pending": null,
+              "last_action_time_ms": 0
+            }
+          }
+        ],
+        "summary": {
+          "actions": 3,
+          "attempts": 2,
+          "admitted": 1,
+          "denied": 1,
+          "closed_admissions": 1,
+          "probe_admissions": 0,
+          "completed": 1,
+          "success_observations": 0,
+          "failure_observations": 1,
+          "ignored_observations": 0,
+          "opens": 1,
+          "closes": 0,
+          "half_open_entries": 0,
+          "pending": 0
+        },
+        "final_state": {
+          "mode": "open",
+          "closed_failure_streak": 1,
+          "recovery_success_streak": 0,
+          "opened_at_ms": 0,
+          "eligible_at_ms": 10,
+          "pending": null,
+          "last_action_time_ms": 0
+        }
+      }
+    },
+    {
+      "name": "completion-origin-delayed",
+      "input": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 1,
+          "cooldown_ms": 10,
+          "success_threshold": 1
+        },
+        "actions": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 7,
+            "outcome": "failure"
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 10
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 17
+          }
+        ]
+      },
+      "expected": {
+        "schema_version": 1,
+        "source_kind": "synthetic",
+        "profile": "breaker-serial-probe/1",
+        "breaker_id": "lab-breaker-0001",
+        "policy": {
+          "failure_threshold": 1,
+          "cooldown_ms": 10,
+          "success_threshold": 1
+        },
+        "status": "modeled",
+        "effects": "unmodeled",
+        "actual_service_health": "unverified",
+        "rows": [
+          {
+            "action_id": "lab-action-0000",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 0,
+            "result": {
+              "decision": "admit",
+              "reason": "closed_allowed",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": null,
+              "last_action_time_ms": null
+            },
+            "after": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            }
+          },
+          {
+            "action_id": "lab-action-0001",
+            "kind": "complete",
+            "attempt_id": "lab-attempt-0001",
+            "time_ms": 7,
+            "result": {
+              "decision": "observed",
+              "reason": "closed_failure",
+              "outcome": "failure"
+            },
+            "transitions": [
+              "closed->open"
+            ],
+            "before": {
+              "mode": "closed",
+              "closed_failure_streak": 0,
+              "recovery_success_streak": 0,
+              "opened_at_ms": null,
+              "eligible_at_ms": null,
+              "pending": {
+                "attempt_id": "lab-attempt-0001",
+                "role": "closed",
+                "admitted_at_ms": 0
+              },
+              "last_action_time_ms": 0
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 7,
+              "eligible_at_ms": 17,
+              "pending": null,
+              "last_action_time_ms": 7
+            }
+          },
+          {
+            "action_id": "lab-action-0002",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0002",
+            "time_ms": 10,
+            "result": {
+              "decision": "deny",
+              "reason": "cooldown_active",
+              "outcome": null
+            },
+            "transitions": [],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 7,
+              "eligible_at_ms": 17,
+              "pending": null,
+              "last_action_time_ms": 7
+            },
+            "after": {
+              "mode": "open",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 7,
+              "eligible_at_ms": 17,
+              "pending": null,
+              "last_action_time_ms": 10
+            }
+          },
+          {
+            "action_id": "lab-action-0003",
+            "kind": "attempt",
+            "attempt_id": "lab-attempt-0003",
+            "time_ms": 17,
+            "result": {
+              "decision": "admit",
+              "reason": "probe_allowed",
+              "outcome": null
+            },
+            "transitions": [
+              "open->half_open"
+            ],
+            "before": {
+              "mode": "open",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 7,
+              "eligible_at_ms": 17,
+              "pending": null,
+              "last_action_time_ms": 10
+            },
+            "after": {
+              "mode": "half_open",
+              "closed_failure_streak": 1,
+              "recovery_success_streak": 0,
+              "opened_at_ms": 7,
+              "eligible_at_ms": 17,
+              "pending": {
+                "attempt_id": "lab-attempt-0003",
+                "role": "probe",
+                "admitted_at_ms": 17
+              },
+              "last_action_time_ms": 17
+            }
+          }
+        ],
+        "summary": {
+          "actions": 4,
+          "attempts": 3,
+          "admitted": 2,
+          "denied": 1,
+          "closed_admissions": 1,
+          "probe_admissions": 1,
+          "completed": 1,
+          "success_observations": 0,
+          "failure_observations": 1,
+          "ignored_observations": 0,
+          "opens": 1,
+          "closes": 0,
+          "half_open_entries": 1,
+          "pending": 1
+        },
+        "final_state": {
+          "mode": "half_open",
+          "closed_failure_streak": 1,
+          "recovery_success_streak": 0,
+          "opened_at_ms": 7,
+          "eligible_at_ms": 17,
+          "pending": {
+            "attempt_id": "lab-attempt-0003",
+            "role": "probe",
+            "admitted_at_ms": 17
+          },
+          "last_action_time_ms": 17
+        }
+      }
+    }
+  ]
+}
